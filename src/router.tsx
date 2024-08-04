@@ -3,8 +3,10 @@ import { RouteObject } from 'react-router';
 import { Navigate } from 'react-router-dom';
 import SidebarLayout from './layouts/SidebarLayout/index';
 import BaseLayout from './layouts/BaseLayout';
-import Status404 from '../src/content/Status/Status404';
-import Status500 from '../src/content/Status/Status500';
+import Status404 from './content/pages/Status/Status404';
+import Status500 from './content/pages/Status/Status500';
+import Overview from './content/overview';
+import CommingSoon from './content/pages/Status/CommingSoon';
 
 // Status
 
@@ -27,6 +29,10 @@ const routes: RouteObject[] = [
     element: <BaseLayout />,
     children: [
       {
+        path: '/',
+        element: <Overview />
+      },
+      {
         path: 'status',
         children: [
           {
@@ -40,6 +46,10 @@ const routes: RouteObject[] = [
           {
             path: '500',
             element: <Status500 />
+          },
+          {
+            path: 'commingsoon',
+            element: <CommingSoon />
           }
         ]
       },
@@ -50,7 +60,7 @@ const routes: RouteObject[] = [
     ]
   },
   {
-    path: '',
+    path: 'dashboards',
     element: <SidebarLayout />,
     children: []
   }

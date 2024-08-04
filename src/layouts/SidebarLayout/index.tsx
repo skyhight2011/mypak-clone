@@ -1,68 +1,64 @@
-import React, { FC, ReactNode, useState } from 'react';
-import {
-  AppBar,
-  Box,
-  CssBaseline,
-  Divider,
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Toolbar,
-  Typography,
-  alpha,
-  lighten,
-  useTheme,
-  styled
-} from '@mui/material';
+import React, { FC, ReactNode } from 'react';
+import { Box, alpha, lighten, useTheme } from '@mui/material';
+import { Outlet } from 'react-router-dom';
 
 import Sidebar from './Sidebar';
 import Header from './Header';
-
-const drawerWidth = 240;
 
 interface SidebarLayoutProps {
   children?: ReactNode;
 }
 
-interface Props {
-  window?: () => Window;
-}
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: 'flex-start'
-}));
-
 const SidebarLayout: FC<SidebarLayoutProps> = () => {
-  const [open, setOpen] = React.useState(false);
   const theme = useTheme();
 
   return (
-    <Box
-      component="nav"
-      sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
-      <Drawer
-        variant="persistent"
-        open={open}
-        ModalProps={{
-          keepMounted: true // Better open performance on mobile.
-        }}
+    <>
+      <Box
         sx={{
-          display: { xs: 'block', sm: 'none' },
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }
+          flex: 1,
+          height: '100%',
+
+          '.MuiPageTitle-wrapper': {
+            background:
+              theme.palette.mode === 'dark'
+                ? theme.colors.alpha.trueWhite[5]
+                : theme.colors.alpha.white[50],
+            marginBottom: `${theme.spacing(4)}`,
+            boxShadow:
+              theme.palette.mode === 'dark'
+                ? `0 1px 0 ${alpha(
+                    lighten(theme.colors.primary.main, 0.7),
+                    0.15
+                  )}, 0px 2px 4px -3px rgba(0, 0, 0, 0.2), 0px 5px 12px -4px rgba(0, 0, 0, .1)`
+                : `0px 2px 4px -3px ${alpha(
+                    theme.colors.alpha.black[100],
+                    0.1
+                  )}, 0px 5px 12px -4px ${alpha(
+                    theme.colors.alpha.black[100],
+                    0.05
+                  )}`
+          }
         }}>
+        <Header />
         <Sidebar />
-      </Drawer>
-      <Header />
-    </Box>
+        <Box
+          sx={{
+            position: 'relative',
+            zIndex: 5,
+            display: 'block',
+            flex: 1,
+            pt: `${theme.header.height}`,
+            [theme.breakpoints.up('lg')]: {
+              ml: `${theme.sidebar.width}`
+            }
+          }}>
+          <Box display="block">
+            <Outlet />
+          </Box>
+        </Box>
+      </Box>
+    </>
   );
 };
 

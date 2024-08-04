@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import {
   Box,
@@ -9,8 +9,7 @@ import {
   useTheme,
   Button,
   lighten,
-  darken,
-  Tooltip
+  darken
 } from '@mui/material';
 
 import SidebarMenu from './SidebarMenu';
@@ -54,38 +53,9 @@ function Sidebar() {
             background: theme.colors.alpha.trueWhite[10]
           }}
         />
-        <Box p={2}>
-          <Button
-            href="https://bloomui.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            variant="contained"
-            color="warning"
-            size="small"
-            fullWidth>
-            Upgrade to PRO
-          </Button>
-        </Box>
+        <SidebarHeader />
+        <SidebarMenu />
       </SidebarWrapper>
-      <Drawer
-        sx={{
-          boxShadow: `${theme.sidebar.boxShadow}`
-        }}
-        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-        open={true}
-        variant="temporary"
-        elevation={9}>
-        <SidebarWrapper
-          sx={{
-            background:
-              theme.palette.mode === 'dark'
-                ? theme.colors.alpha.white[100]
-                : darken(theme.colors.alpha.black[100], 0.5)
-          }}>
-          <SidebarHeader />
-          <SidebarMenu />
-        </SidebarWrapper>
-      </Drawer>
     </>
   );
 }
